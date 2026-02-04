@@ -2,6 +2,9 @@
 
 <div class="product_variants">
 
+{% unless product.has_only_default_variant %}
+       
+
 <div class="product-options">
 {% for option in product.options_with_values %}
 
@@ -15,7 +18,7 @@
 <label  class="variant-pill">
   <input type="radio" 
          id="{{value.name | downcase | replace: ' ', '_' }}" 
-         name="{{option.name | downcase | replace: ' ', '_' }}">
+         name="{{option.name | downcase | replace: ' ', '_' }}" value="{{value.name}}"{% if option.selected_value == value %} checked {% endif %}>
   <span class="variant-button">{{value.name}}</span>
 </label>
 {% endfor %}
@@ -24,7 +27,7 @@
 <div class="variant-selector">
         <select class="variant-select">
               {% for value in option.values %}
-                     <option value="{{value.name}}">{{value.name}}</option>
+                     <option value="{{value.name}}" {% if option.selected_value == value %} selected {% endif %}>{{value.name}}</option>
               {% endfor %}
               
         </select>
@@ -41,6 +44,6 @@
               <option value="{{variant.id}}">{{variant.title}}</option>
               {% endfor %}
        </select> 
-
+{% endunless %}
 </div> 
 
