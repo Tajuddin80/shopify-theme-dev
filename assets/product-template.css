@@ -1,0 +1,208 @@
+/* Product Template Styles */
+.product-main {
+  padding: 40px 0;
+}
+
+.product-main .row {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+/* Left side - Scrollable product images */
+.product-media-column {
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+}
+
+.product-media {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+/* product variants */
+.variant-pill {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.variant-pill input[type="radio"] {
+  display: none;
+}
+
+.variant-pill .variant-button {
+  display: inline-block;
+  padding: 8px 10px;
+  background-color: #dddddd; /* fixed hex */
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s; /* smooth hover */
+}
+
+.variant-pill input[type="radio"]:checked + .variant-button {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+}
+
+/* Optional: hover effect */
+.variant-pill .variant-button:hover {
+  background-color: #333;
+  color: white;
+}
+
+
+/* Right side - Sticky product information */
+.product-info-column {
+  flex: 1;
+  position: relative;
+}
+
+.product-informations-sticky {
+  position: sticky;
+  top: 20px;
+  padding: 20px 0;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+/* Product form elements */
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.product-price p {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.product-sku p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.rte {
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Quantity selector */
+.product-quantity input[type="number"] {
+  width: 100%;
+  max-width: 120px;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.product-quantity input[type="number"]:focus {
+  outline: none;
+  border-color: #000;
+}
+
+/* Buttons */
+.cart-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: #000;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #333;
+}
+
+.btn-secondary {
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+}
+
+.btn-secondary:hover {
+  background-color: #f5f5f5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-main .row {
+    flex-direction: column;
+  }
+
+  .product-media-column {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .product-info-column {
+    position: relative;
+  }
+
+  .product-informations-sticky {
+    position: relative;
+    top: 0;
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+.product-media-column::-webkit-scrollbar,
+.product-informations-sticky::-webkit-scrollbar {
+  width: 8px;
+}
+
+.product-media-column::-webkit-scrollbar-track,
+.product-informations-sticky::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.product-media-column::-webkit-scrollbar-thumb,
+.product-informations-sticky::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.product-media-column::-webkit-scrollbar-thumb:hover,
+.product-informations-sticky::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

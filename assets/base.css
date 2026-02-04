@@ -1,3 +1,28 @@
-html{
-    margin: 0;
+html {
+  margin: 0;
+}
+/* Header group */
+
+/* Announcement bar */
+p.announcement-text.text-center.cotainer {
+  padding: 14px;
+  margin-bottom: 0;
+}
+
+.announcement-bar {
+  background: #dddddd;
+}
+
+.image-banner-main {
+  position: relative;
+}
+
+.banner-content {
+  position: absolute;
+  top: 42%;
+}
+
+.card-body svg, .card-body img {
+  width: 100%;
+  height: auto;
 }

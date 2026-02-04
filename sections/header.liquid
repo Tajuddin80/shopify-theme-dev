@@ -1,0 +1,112 @@
+<div class="header-section">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{shop.url}}">
+        {% if settings.logo != blank %}
+          
+     <img
+  src="{{ settings.logo | image_url }}"
+  alt="{{ shop.name }}"
+  style="
+    width: {{ section.settings.width | append: 'px' }};
+    height: {{ section.settings.height | append: 'px' }};
+    object-fit: contain;
+  "
+>
+
+        {% else %}
+          {{ shop.name }}
+        {% endif %}
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          {% comment %} header menu buttons here {% endcomment %}
+          {% for link in section.settings.menu.links %}
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{{link.url}}">{{ link.title }}</a>
+            </li>
+
+
+            {% if link.links.size > 1 %}
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  {{ link.title }}
+                </a>
+
+                <ul class="dropdown-menu">
+
+                  {% for child in link.links %}
+                    <li>
+                      <a class="dropdown-item" href="{{child.url}}">{{ child.title }}</a>
+                    </li>
+                  {% endfor %}
+
+                </ul>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+        </ul>
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search" />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu"
+      },
+      {
+      "type": "range",
+      "id": "width",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "default": 100,
+      "label": "Logo width"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "default": 100,
+      "label": "Logo height"
+    }
+    ]
+  }
+{% endschema %}

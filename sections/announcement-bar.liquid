@@ -1,0 +1,19 @@
+<div class="announcement-bar">
+  <p class="announcement-text text-center cotainer">
+    {{ section.settings.announcement }}
+  </p>
+</div>
+
+{% schema %}
+  {
+    "name": "Announcement-bar",
+    "settings": [
+      {
+        "type": "text",
+        "id": "announcement",
+        "label": "Announcement bar text",
+        "default": "50% off for bangladesh order"
+      }
+    ]
+  }
+{% endschema %}

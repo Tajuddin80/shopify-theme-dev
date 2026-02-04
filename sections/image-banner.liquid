@@ -1,9 +1,101 @@
+{% style %}
+
+  .banner-content {
+    max-width: {{ section.settings.content_width }}%
+  }
+
+  .banner-content {
+    color: {{ section.settings.image_content_text_color | default: '#000000' }};
+
+  }
+  .image-banner-main img {
+    width: 100%;
+  }
+{% endstyle %}
+
+
 <div class="image-banner-{{section.id}}">
-    Image Banner tested
+  <div class="image-banner-main">
+    {% if section.settings.image != blank %}
+      <img src="{{section.settings.image |  image_url: width: full}}" alt="">
+    {% else %}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+
+
+    <div class="container">
+      <div class="banner-content z-3">
+        <h1>{{ section.settings.heading }}</h1>
+        {% if section.settings.sub_heading != blank %}
+          <p>
+            {{ section.settings.sub_heading
+            }}</p>
+
+        {% endif %}
+        <div class="banner-CTA">
+          <div class="cta-action">
+            <a href="{{section.settings.url_1}}" class="btn btn-primary">{{ section.settings.label_1 }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
-{% schema  %} 
-{
+{% schema %}
+  {
     "name": "Image Banner",
-    "settings": []
-}
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "header",
+        "content": "Banner Content"
+      },
+
+      {
+        "type": "color",
+        "id": "image_content_text_color",
+        "label": "image content text color",
+        "alpha": true
+      },
+      {
+        "type": "range",
+        "id": "content_width",
+        "label": "Content Width",
+        "min": 50,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 60
+      }, {
+        "type": "text",
+        "id": "heading",
+        "label": "heading",
+        "default": "Our best collection"
+      }, {
+        "type": "richtext",
+        "id": "sub_heading",
+        "label": "Sub Heading"
+      }, {
+        "type": "text",
+        "id": "label_1",
+        "label": "Button label",
+        "default": "Buy Now"
+      }, {
+        "type": "url",
+        "id": "url_1",
+        "label": "Button Link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image Banner",
+        "category": "Image"
+      }
+    ]
+  }
 {% endschema %}
