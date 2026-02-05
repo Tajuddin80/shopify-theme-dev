@@ -18,20 +18,26 @@
 <label  class="variant-pill">
   <input type="radio" 
          id="{{value.name | downcase | replace: ' ', '_' }}" 
-         name="{{option.name | downcase | replace: ' ', '_' }}" value="{{value.name}}"{% if option.selected_value == value %} checked {% endif %}>
+         name="{{option.name | downcase | replace: ' ', '_' }}" value="{{value.name}}"
+       {% if option.selected_value == value %} checked {% endif %}>
+
   <span class="variant-button">{{value.name}}</span>
+  
 </label>
 {% endfor %}
 
 {% else %}
+
 <div class="variant-selector">
         <select class="variant-select">
-              {% for value in option.values %}
+       {% for value in option.values %}
                      <option value="{{value.name}}" {% if option.selected_value == value %} selected {% endif %}>{{value.name}}</option>
-              {% endfor %}
+       {% endfor %}
               
         </select>
 </div>
+
+
 
 {% endif %}
 
@@ -39,11 +45,11 @@
 <br>
 {% endfor %}
 </div>
-        <select name="id" class="variants" >
-              {% for variant in product.variants %}
-              <option value="{{variant.id}}">{{variant.title}}</option>
-              {% endfor %}
-       </select> 
+<select name="id" class="variant" >
+       {% for variant in product.variants %}
+       <option value="{{variant.id}}" data-img="{{variant.image}}" data-available = "{{variant.available}}">{{variant.title}}</option>
+       {% endfor %}
+</select> 
 {% endunless %}
 </div> 
 

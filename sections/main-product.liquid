@@ -1,5 +1,7 @@
 {{ 'product-template.css' | asset_url | stylesheet_tag }}
 {{ 'product-variant.js' | asset_url |  script_tag}}
+{{ 'product-form.js' | asset_url |  script_tag}}
+
 <div class="product-template-{{section.id}}">
   <div class="product-main">
     <div class="container">
@@ -54,11 +56,11 @@
                     </div>
             
                    {% when 'variants' %}
-                    {% comment %} <select name="id" class="variants" >
+                     {% comment %} <select name="id" class="variant" >
                         {% for variant in product.variants %}
                         <option value="{{variant.id}}">{{variant.title}}</option>
                         {% endfor %}
-                    </select> {% endcomment %}
+                    </select>   {% endcomment %}
 
                     {% assign variants_type = block.settings.variant_type %}
 
@@ -86,6 +88,21 @@
   </div>
 
 </div>
+
+
+{% javascript %}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector(".product-form");
+
+  if (!form) return;
+
+  form.addEventListener("submit", (e) => {
+    console.log("Submitting variant ID:", form.querySelector('[name="id"]').value);
+  });
+});
+
+{% endjavascript %}
 
 {% schema %}
 {
@@ -170,9 +187,3 @@
 }
 
 {% endschema %}
-  
-<script>
-
-  console.log({{product | json}});
-</script>
- 
