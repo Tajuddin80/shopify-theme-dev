@@ -3,9 +3,19 @@
         "image_banner": {
             "type": "image-banner",
             "settings": {}
+        },
+        "featured_collection": {
+            "type": "featured-collection",
+            "settings": {}
+        },
+        "multi_column": {
+            "type": "multicolumn",
+            "settings": {}
         }
     },
-    "order":[
-        "image_banner"
+    "order": [
+        "image_banner",
+        "featured_collection",
+        "multi_column"
     ]
 }

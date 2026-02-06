@@ -4,7 +4,6 @@
 
 {% unless product.has_only_default_variant %}
        
-
 <div class="product-options">
 {% for option in product.options_with_values %}
 
@@ -28,28 +27,30 @@
 
 {% else %}
 
-<div class="variant-selector">
-        <select class="variant-select">
-       {% for value in option.values %}
-                     <option value="{{value.name}}" {% if option.selected_value == value %} selected {% endif %}>{{value.name}}</option>
-       {% endfor %}
-              
-        </select>
-</div>
-
-
-
+    <div class="variant-selector">
+          <select class="variant-select">
+                {% for value in option.values %}
+                      <option value="{{value.name}}" {% if option.selected_value == value %} selected {% endif %}>{{value.name}}</option>
+                {% endfor %}
+          </select>
+    </div>
 {% endif %}
 
 
 <br>
 {% endfor %}
 </div>
-<select name="id" class="variant" >
-       {% for variant in product.variants %}
-       <option value="{{variant.id}}" data-img="{{variant.image}}" data-available = "{{variant.available}}">{{variant.title}}</option>
-       {% endfor %}
-</select> 
+<select name="id" class="variant">
+  {% for variant in product.variants %}
+    <option
+      value="{{ variant.id }}"
+      data-options="{{ variant.options | join: ' / ' }}"
+      data-available="{{ variant.available }}"
+    >
+      {{ variant.title }}
+    </option>
+  {% endfor %}
+</select>
+
 {% endunless %}
 </div> 
-

@@ -2,21 +2,18 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{shop.url}}">
+
         {% if settings.logo != blank %}
-          
-     <img
-  src="{{ settings.logo | image_url }}"
-  alt="{{ shop.name }}"
-  style="
-    width: {{ section.settings.width | append: 'px' }};
-    height: {{ section.settings.height | append: 'px' }};
-    object-fit: contain;
-  "
->
+          {{ settings.logo
+ | image_url: width: section.settings.width
+ | image_tag:
+ alt: shop.name
+          }}
 
         {% else %}
           {{ shop.name }}
         {% endif %}
+
       </a>
 
       <button
@@ -88,25 +85,23 @@
         "type": "link_list",
         "id": "menu",
         "label": "Menu"
-      },
-      {
-      "type": "range",
-      "id": "width",
-      "min": 20,
-      "max": 100,
-      "step": 1,
-      "default": 100,
-      "label": "Logo width"
-    },
-    {
-      "type": "range",
-      "id": "height",
-      "min": 20,
-      "max": 100,
-      "step": 1,
-      "default": 100,
-      "label": "Logo height"
-    }
+      }, {
+        "type": "range",
+        "id": "width",
+        "min": 20,
+        "max": 100,
+        "step": 1,
+        "default": 100,
+        "label": "Logo width"
+      }, {
+        "type": "range",
+        "id": "height",
+        "min": 20,
+        "max": 100,
+        "step": 1,
+        "default": 100,
+        "label": "Logo height"
+      }
     ]
   }
 {% endschema %}

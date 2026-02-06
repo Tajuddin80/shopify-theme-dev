@@ -1,6 +1,8 @@
 {{ 'product-template.css' | asset_url | stylesheet_tag }}
 {{ 'product-variant.js' | asset_url |  script_tag}}
 {{ 'product-form.js' | asset_url |  script_tag}}
+{{ 'base.css' | asset_url | stylesheet_tag }}
+{{ 'quantity-input.js' | asset_url | script_tag }}
 
 <div class="product-template-{{section.id}}">
   <div class="product-main">
@@ -50,18 +52,11 @@
                       {{ product.description }}
                     </div>
 
-                  {% when 'quantity' %}
-                    <div class="product-quantity">
-                      <input type="number" name="quantity" value="1" min="1">
-                    </div>
-            
-                   {% when 'variants' %}
-                     {% comment %} <select name="id" class="variant" >
-                        {% for variant in product.variants %}
-                        <option value="{{variant.id}}">{{variant.title}}</option>
-                        {% endfor %}
-                    </select>   {% endcomment %}
+      {% when 'quantity' %}
+  {% render 'quantity-input' %}
 
+
+                   {% when 'variants' %}
                     {% assign variants_type = block.settings.variant_type %}
 
                     {% render 'variants', product: product, variants_type: variants_type %}

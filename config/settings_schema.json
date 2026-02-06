@@ -1465,5 +1465,9 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "Color Swatch",
+    
   }
 ]

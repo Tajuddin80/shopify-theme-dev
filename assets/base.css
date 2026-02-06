@@ -26,3 +26,41 @@ p.announcement-text.text-center.cotainer {
   width: 100%;
   height: auto;
 }
+
+
+.quantity-input {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  max-width: 140px;
+}
+
+.quantity-input-field {
+  width: 50px;
+  text-align: center;
+  border: none;
+  outline: none;
+  font-size: 16px;
+
+  /* REMOVE NUMBER ARROWS */
+  -moz-appearance: textfield;
+}
+
+.quantity-input-field::-webkit-outer-spin-button,
+.quantity-input-field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.qty-btn:hover {
+  background: #e5e5e5;
+}

@@ -1,31 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Check if button[name="add"] exists
-  if (document.querySelectorAll('[name="add"]').length > 0) {
-    // Event delegation
-    document.addEventListener("click", function (e) {
-      const button = e.target.closest("button[name='add']");
-      if (!button) return;
+  const form = document.querySelector(".product-form");
+  if (!form) return;
 
-      e.preventDefault();
+  const variantSelect = form.querySelector('select[name="id"]');
+  if (!variantSelect) return;
 
-      // Find the parent form
-      const form = button.closest('.product-form[action="/cart/add"]');
-      if (!form) return;
+  function getSelectedOptions() {
+    const values = [];
 
-      fetch("/cart/add.js", {
-        method: "POST",
-        body: new FormData(form),
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Add to cart error!");
-          return response.json();
-        })
-        .then((data) => {
-          console.log("data:", data);
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
-    });
+    // radio pills
+    form.querySelectorAll(".product-options input[type=radio]:checked").forEach((input) => values.push(input.value));
+
+    // dropdown selectors
+    form.querySelectorAll(".variant-select").forEach((select) => values.push(select.value));
+
+    return values.join(" / ");
   }
+
+  function updateVariantId() {
+    const selected = getSelectedOptions();
+
+    const match = [...variantSelect.options].find((opt) => opt.dataset.options === selected);
+
+    if (match) {
+      variantSelect.value = match.value;
+      variantSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  }
+
+  // listen for changes
+  form.addEventListener("change", (e) => {
+    if (e.target.matches(".variant-select") || e.target.matches(".product-options input[type=radio]")) {
+      updateVariantId();
+    }
+  });
+
+  // Add to cart
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    fetch("/cart/add.js", {
+      method: "POST",
+      body: new FormData(form),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        console.log("CORRECT variant added:", data);
+      })
+      .catch(console.error);
+  });
 });
