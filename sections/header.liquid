@@ -1,21 +1,125 @@
+<style>
+  .navbar-nav .nav-link {
+    position: relative;
+    color: #555;
+    font-weight: 500;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #000;
+  }
+
+  /* Level 1 - Main Navigation Active */
+  .navbar-nav .nav-item > .nav-link.active {
+    color: #4b93ff;
+    font-weight: 600;
+  }
+
+  .navbar-nav .nav-item > .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #b0d0ff;
+    border-radius: 2px;
+  }
+
+  /* Level 2 - Dropdown Items Active */
+  .dropdown-menu .dropdown-item {
+    transition: all 0.3s ease;
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .dropdown-menu .dropdown-item.active {
+    background-color: #b0d0ff;
+    color: #4b93ff;
+    font-weight: 600;
+  }
+
+  .dropdown-menu .dropdown-item.active::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: #b0d0ff;
+    border-radius: 2px;
+  }
+
+  /* Level 3 - Nested Dropdown Items Active */
+  .dropdown-menu .dropdown-submenu {
+    position: relative;
+  }
+
+  .dropdown-menu .dropdown-submenu .dropdown-menu {
+    left: 100%;
+    top: 0;
+    margin-left: 0.1rem;
+  }
+
+  .dropdown-menu .dropdown-submenu .dropdown-item.active-parent {
+    background-color: #b0d0ff;
+    color: #4b93ff;
+    font-weight: 600;
+  }
+
+  .dropdown-menu .dropdown-submenu .dropdown-item.active-child {
+    background-color: #b0d0ff;
+    color: #4b93ff;
+    font-weight: 600;
+    padding-left: 30px;
+  }
+
+  .dropdown-menu .dropdown-submenu .dropdown-item.active-child::before {
+    content: '→';
+    position: absolute;
+    left: 12px;
+    color: #4b93ff;
+    font-weight: bold;
+  }
+
+  /* Dropdown Toggle Active */
+  .nav-item.dropdown .nav-link.dropdown-toggle.active {
+    color: #4b93ff;
+  }
+
+  /* Breadcrumb indicator for nested items */
+  .dropdown-item.has-active-child::after {
+    content: '▸';
+    float: right;
+    color: #4b93ff;
+    font-weight: bold;
+  }
+
+  /* Hover effects */
+  .dropdown-item:hover {
+    background-color: #b0d0ff;
+  }
+
+  .dropdown-item.active:hover {
+    background-color: #b0d0ff;
+  }
+</style>
+
 <div class="header-section">
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{shop.url}}">
-
         {% if settings.logo != blank %}
           {{ settings.logo
  | image_url: width: section.settings.width
  | image_tag:
  alt: shop.name
           }}
-
         {% else %}
           {{ shop.name }}
         {% endif %}
-
       </a>
-
       <button
         class="navbar-toggler"
         type="button"
@@ -29,40 +133,96 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-          {% comment %} header menu buttons here {% endcomment %}
           {% for link in section.settings.menu.links %}
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="{{link.url}}">{{ link.title }}</a>
-            </li>
 
+            {% assign is_active = false %}
+            {% assign has_active_child = false %}
 
-            {% if link.links.size > 1 %}
+            {% if link.url == request.path or link.active %}
+              {% assign is_active = true %}
+            {% endif %}
+
+            {% for child in link.links %}
+              {% if child.url == request.path or child.active %}
+                {% assign is_active = true %}
+                {% assign has_active_child = true %}
+              {% endif %}
+
+              {% comment %} Check grandchildren {% endcomment %}
+              {% for grandchild in child.links %}
+                {% if grandchild.url == request.path or grandchild.active %}
+                  {% assign is_active = true %}
+                  {% assign has_active_child = true %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+
+            {% if link.links.size > 0 %}
               <li class="nav-item dropdown">
                 <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
+                  class="nav-link dropdown-toggle {% if is_active %}active{% endif %}"
+                  href="{{ link.url }}"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false">
                   {{ link.title }}
                 </a>
-
                 <ul class="dropdown-menu">
-
                   {% for child in link.links %}
-                    <li>
-                      <a class="dropdown-item" href="{{child.url}}">{{ child.title }}</a>
-                    </li>
-                  {% endfor %}
+                    {% assign child_is_active = false %}
+                    {% assign child_has_active = false %}
 
+                    {% if child.url == request.path or child.active %}
+                      {% assign child_is_active = true %}
+                    {% endif %}
+
+                    {% comment %} Check if any grandchild is active {% endcomment %}
+                    {% for grandchild in child.links %}
+                      {% if grandchild.url == request.path or grandchild.active %}
+                        {% assign child_is_active = true %}
+                        {% assign child_has_active = true %}
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if child.links.size > 0 %}
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item {% if child_is_active %}active-parent{% endif %} {% if child_has_active %}has-active-child{% endif %}" href="{{ child.url }}">
+                          {{ child.title }}
+                        </a>
+                        <ul class="dropdown-menu">
+                          {% for grandchild in child.links %}
+                            {% assign grandchild_is_active = false %}
+
+                            {% if grandchild.url == request.path or grandchild.active %}
+                              {% assign grandchild_is_active = true %}
+                            {% endif %}
+
+                            <li>
+                              <a class="dropdown-item {% if grandchild_is_active %}active-child{% endif %}" href="{{ grandchild.url }}">
+                                {{ grandchild.title }}
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </li>
+                    {% else %}
+                      <li>
+                        <a class="dropdown-item {% if child_is_active %}active{% endif %}" href="{{ child.url }}">
+                          {{ child.title }}
+                        </a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
                 </ul>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link {% if is_active %}active{% endif %}" href="{{ link.url }}">
+                  {{ link.title }}
+                </a>
               </li>
             {% endif %}
           {% endfor %}
-
         </ul>
         <form class="d-flex" role="search">
           <input
@@ -76,6 +236,29 @@
     </div>
   </nav>
 </div>
+
+<script>
+  // Enhanced dropdown behavior for nested menus
+  document.addEventListener('DOMContentLoaded', function() {
+    const dropdownSubmenus = document.querySelectorAll('.dropdown-submenu');
+    
+    dropdownSubmenus.forEach(function(submenu) {
+      submenu.addEventListener('mouseenter', function() {
+        const submenuDropdown = this.querySelector('.dropdown-menu');
+        if (submenuDropdown) {
+          submenuDropdown.classList.add('show');
+        }
+      });
+      
+      submenu.addEventListener('mouseleave', function() {
+        const submenuDropdown = this.querySelector('.dropdown-menu');
+        if (submenuDropdown) {
+          submenuDropdown.classList.remove('show');
+        }
+      });
+    });
+  });
+</script>
 
 {% schema %}
   {

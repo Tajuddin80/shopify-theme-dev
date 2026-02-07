@@ -1,47 +1,4 @@
 {% assign collection = section.settings.collection.products %}
-<style>
-
-  /* Fixed height card */
-  .card {
-    width: 100%;
-    height: 420px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Card body layout */
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-  }
-
-  /* Image styling */
-  .card-body img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    margin-bottom: 0.75rem;
-  }
-
-  .product-info {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  /* Title control */
-  .product-info p.text-truncate {
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .CTA {
-    margin-top: auto;
-  }
-</style>
 
 <div class="featured-collection-section">
   <div class="container" data-section="{{section.id}}">
@@ -60,7 +17,7 @@
 
     <div class="row">
       {% for product in collection %}
-        <div class="col-md-3 card-out ">
+        <div class="col-md-3 ">
           <div class="card my-2">
             <div class="card-body">
               {{ product.featured_image | image_url: width: 300 | image_tag }}
@@ -90,7 +47,7 @@
                 {%- endcapture -%}
 
                 {{ 'product-apparel-' | append: current | placeholder_svg_tag: 'placeholder_svg' }}
-
+                
                 <div class="product-info">
                   <p class="text-truncate">
                     <strong>
