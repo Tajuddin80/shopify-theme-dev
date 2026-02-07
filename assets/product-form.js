@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.querySelectorAll(".variant-select").forEach((select) => values.push(select.value));
 
     return values.join(" / ");
-  }
+  } 
 
   function updateVariantId() {
     const selected = getSelectedOptions();
@@ -49,4 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(console.error);
   });
+
+
 });
